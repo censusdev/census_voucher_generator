@@ -10,7 +10,10 @@ interface FlightVoucherProps {
     passengerName: string;
     travelDate: string;
     returnDate: string;
-    numberOfPassengers: number;
+    //numberOfPassengers: number;
+    flightNumber: string;
+    adults: number;
+    children: number;
   };
   onExportPDF: () => void;
 }
@@ -79,7 +82,7 @@ const FlightVoucher: React.FC<FlightVoucherProps> = ({ data, onExportPDF }) => {
                 </h3>
                 <div className="space-y-2">
                   <p className="text-xl font-semibold text-gray-800">{data.passengerName}</p>
-                  <p className="text-gray-600">{data.numberOfPassengers} Passenger{data.numberOfPassengers > 1 ? 's' : ''}</p>
+                  <p className="text-gray-600">{data.adults} Adult Passenger{data.adults > 1 ? 's' : ''} - {data.children} child{data.children > 1 ? 's' : ''}</p>
                 </div>
               </div>
             </div>

@@ -34,6 +34,14 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
     });
   };
 
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
   const calculateNights = () => {
     const checkIn = new Date(data.checkInDate);
     const checkOut = new Date(data.checkOutDate);
@@ -47,190 +55,366 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
   const mobileNumber = '9922663388';
   const email = 'abcd@xyz.com';
 
-  return `
+  if (type === 'hotel') {
+    return `
     <!DOCTYPE html>
     <html>
       <head>
-        <title>${type === 'hotel' ? 'Hotel' : 'Flight'} Voucher</title>
+        <title>Hotel Booking Confirmation</title>
         <style>
           * { margin: 0; padding: 0; box-sizing: border-box; }
-          body { font-family: Arial, sans-serif; font-size: 12px; }
+          body { font-family: Arial, sans-serif; font-size: 12px; line-height: 1.4; }
           .voucher { width: 210mm; margin: 0 auto; background: white; }
-          .border { border: 2px solid #000; }
-          .header { background: #1e3a8a; color: white; padding: 8px; text-align: center; }
-          .logo-section { display: flex; align-items: center; padding: 16px; border-bottom: 1px solid #000; }
-          .logo { width: 60px; height: 60px; background: linear-gradient(45deg, #ef4444, #fbbf24); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 16px; }
-          .hotel-name { flex: 1; text-align: center; font-size: 24px; font-weight: bold; }
+          .border { border: 1px solid #ddd; }
+          .header { padding: 10px 0; text-align: center; border-bottom: 1px solid #ddd; }
+          .logo-section { display: flex; padding: 10px 20px; align-items: center; }
+          .logo { width: 80px; height: 80px; border: 1px solid #ddd; margin-right: 20px; }
+          .hotel-info { flex: 1; text-align: center; }
+          .hotel-name { font-size: 22px; font-weight: bold; color: #1e3a8a; }
+          .hotel-address { font-size: 12px; color: #666; margin-top: 5px; }
           .grid-2 { display: grid; grid-template-columns: 1fr 1fr; }
           .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; }
-          .grid-5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
-          .grid-6 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; }
-          .cell { padding: 8px; border-right: 1px solid #000; }
+          .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; }
+          .cell { padding: 8px; border-right: 1px solid #ddd; }
           .cell:last-child { border-right: none; }
-          .row { border-bottom: 1px solid #000; }
-          .section-header { background: #1e3a8a; color: white; padding: 8px; text-align: center; font-weight: bold; }
-          .input-field { background: #f3f4f6; padding: 4px; margin-top: 4px; }
+          .row { border-bottom: 1px solid #ddd; }
+          .section-header { background: #f0f0f0; padding: 8px; text-align: center; font-weight: bold; border-bottom: 1px solid #ddd; }
+          .input-field { padding: 4px; margin-top: 4px; }
           .center { text-align: center; }
           .bold { font-weight: bold; }
           .text-blue { color: #1e40af; }
-          .qr-code { width: 60px; height: 60px; background: #000; color: white; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+          .qr-code { width: 60px; height: 60px; background: #f5f5f5; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+          .footer { padding: 15px; text-align: center; font-size: 11px; color: #666; border-top: 1px solid #ddd; }
+          .signature { margin-top: 30px; border-top: 1px dashed #333; width: 200px; display: inline-block; text-align: center; padding-top: 5px; }
           @media print {
             body { margin: 0; }
-            .voucher { width: 100%; }
+            .voucher { width: 100%; border: none; }
           }
         </style>
       </head>
       <body>
-        <div class="voucher border">
-          <div class="header">
-            <h1>Voucher Format</h1>
-          </div>
-          
+        <div class="voucher">
           <div class="logo-section">
-            <div class="logo">Vyapar</div>
-            <div class="hotel-name">${type === 'hotel' ? data.hotelName : data.flightName}</div>
+            <div class="logo">
+              <!-- Replace with actual logo -->
+              <img src=${'/Logo.png'} alt="Hotel Logo" style="width:100%; height:100%; object-fit:contain;">
+            </div>
+            <div class="hotel-info">
+              <div class="hotel-name">${data.hotelName}</div>
+              <div class="hotel-address">${data.hotelAddress || '123 Main Street, City, State - 123456'}</div>
+              <div class="hotel-address">Phone: ${data.hotelPhone || '+91 1234567890'} | Email: ${data.hotelEmail || 'reservations@hotel.com'}</div>
+            </div>
           </div>
 
-          <div class="grid-2 row">
+          <div class="header">
+            <h2>HOTEL BOOKING CONFIRMATION</h2>
+          </div>
+
+          <div class="grid-3 row">
             <div class="cell">
-              <span class="bold">Booking No:</span>
+              <span class="bold">Booking Reference:</span>
               <div class="input-field">${bookingNo}</div>
             </div>
             <div class="cell">
-              <span class="bold">Booking Name:</span>
-              <div class="input-field">${type === 'hotel' ? data.guestName : data.passengerName}</div>
+              <span class="bold">Booking Date:</span>
+              <div class="input-field">${formatDate(new Date().toString())}</div>
+            </div>
+            <div class="cell">
+              <span class="bold">Status:</span>
+              <div class="input-field">Confirmed</div>
             </div>
           </div>
 
           <div class="grid-2 row">
+            <div class="cell">
+              <span class="bold">Guest Name:</span>
+              <div class="input-field">${data.guestName}</div>
+            </div>
             <div class="cell">
               <span class="bold">Contact Number:</span>
               <div class="input-field">${contactNumber}</div>
             </div>
-            <div class="cell">
-              <span class="bold">Mobile Number:</span>
-              <div class="input-field">${mobileNumber}</div>
-            </div>
           </div>
 
           <div class="grid-2 row">
-            <div class="cell">
-              <span class="bold">State Address:</span>
-              <div class="input-field">_____</div>
-            </div>
             <div class="cell">
               <span class="bold">Email:</span>
               <div class="input-field">${email}</div>
             </div>
-          </div>
-
-          <div class="grid-2 row">
             <div class="cell">
-              <span class="bold">GSTIN:</span>
-              <div class="input-field">${gstin}</div>
-            </div>
-            <div class="cell">
-              <span class="bold">${type === 'hotel' ? 'No of Guest' : 'No of Passengers'}:</span>
-              <div class="input-field">${type === 'hotel' ? data.numberOfGuests : data.numberOfPassengers}</div>
+              <span class="bold">No. of Guests:</span>
+              <div class="input-field">${data.numberOfGuests} (${data.numberOfAdults || 2} Adults, ${data.numberOfChildren || 0} Children)</div>
             </div>
           </div>
 
+          <div class="section-header">STAY DETAILS</div>
           <div class="grid-3 row">
             <div class="cell center">
-              <div class="bold text-blue">${type === 'hotel' ? 'Check-in' : 'Departure'}</div>
-              <div class="bold" style="font-size: 16px; margin-top: 8px;">${formatDate(type === 'hotel' ? data.checkInDate : data.travelDate)}</div>
+              <div class="bold text-blue">Check-in</div>
+              <div class="bold" style="font-size: 16px; margin-top: 8px;">${formatDate(data.checkInDate)}</div>
+              <div>14:00 onwards</div>
             </div>
             <div class="cell center">
-              <div class="bold text-blue">${type === 'hotel' ? 'Check-out' : 'Return'}</div>
-              <div class="bold" style="font-size: 16px; margin-top: 8px;">${formatDate(type === 'hotel' ? data.checkOutDate : data.returnDate)}</div>
+              <div class="bold text-blue">Check-out</div>
+              <div class="bold" style="font-size: 16px; margin-top: 8px;">${formatDate(data.checkOutDate)}</div>
+              <div>Until 12:00 noon</div>
             </div>
             <div class="cell center">
-              <div class="bold text-blue">Number of Days</div>
-              <div class="bold" style="font-size: 16px; margin-top: 8px;">${type === 'hotel' ? calculateNights() + ' day ' + (calculateNights() - 1) + ' Night' : '1 day'}</div>
+              <div class="bold text-blue">Duration</div>
+              <div class="bold" style="font-size: 16px; margin-top: 8px;">${calculateNights()} Nights / ${calculateNights()+1} Days</div>
             </div>
           </div>
 
-          <div class="section-header">Package Details</div>
-          <div class="grid-6 row">
-            <div class="cell bold">${type === 'hotel' ? 'Room Type' : 'Flight Type'}</div>
-            <div class="cell bold">Unit</div>
+          <div class="section-header">ROOM DETAILS</div>
+          <div class="grid-4 row">
+            <div class="cell bold">Room Type</div>
             <div class="cell bold">Quantity</div>
-            <div class="cell bold">GST</div>
-            <div class="cell bold">Amount</div>
-            <div class="cell bold">Taxable Pay GST+Service</div>
+            <div class="cell bold">Meal Plan</div>
+            <div class="cell bold">Rate/Night</div>
           </div>
-          <div class="grid-6 row">
-            <div class="cell">${type === 'hotel' ? 'Single Room' : 'Economy Class'}</div>
-            <div class="cell">1</div>
-            <div class="cell">2</div>
-            <div class="cell">18%</div>
-            <div class="cell">16850</div>
-            <div class="cell">19883</div>
+          <div class="grid-4 row">
+            <div class="cell">${data.roomType || 'Deluxe Room'}</div>
+            <div class="cell">${data.roomQuantity || 1}</div>
+            <div class="cell">${data.mealPlan || 'Room Only'}</div>
+            <div class="cell">₹${data.ratePerNight || '5000'}</div>
           </div>
-          <div class="grid-6 row">
-            <div class="cell">${type === 'hotel' ? 'Double Room' : 'Business Class'}</div>
-            <div class="cell">1</div>
-            <div class="cell">1</div>
-            <div class="cell">18%</div>
-            <div class="cell">11000</div>
-            <div class="cell">12980</div>
-          </div>
-          <div class="grid-6 row">
-            <div class="cell bold" style="grid-column: span 4;">Total Payable Amount</div>
-            <div class="cell bold">32863</div>
-            <div class="cell"></div>
+          <div class="grid-4 row">
+            <div class="cell bold" style="grid-column: span 3;">Total Amount</div>
+            <div class="cell bold">₹${data.totalAmount || '10000'}</div>
           </div>
 
-          <div class="section-header">${type === 'hotel' ? 'Guest' : 'Passenger'} Information</div>
-          <div class="grid-5 row">
-            <div class="cell bold">${type === 'hotel' ? 'Guest' : 'Passenger'} Name</div>
-            <div class="cell bold">Age</div>
-            <div class="cell bold">Sex</div>
-            <div class="cell bold">No of Pax</div>
-            <div class="cell bold">QR Code</div>
-          </div>
-          <div class="grid-5 row">
-            <div class="cell">${type === 'hotel' ? data.guestName : data.passengerName}</div>
-            <div class="cell">63</div>
-            <div class="cell">M</div>
-            <div class="cell">Adult</div>
-            <div class="cell center">
-              <div class="qr-code">QR</div>
-            </div>
-          </div>
 
-          <div class="section-header">Package Includes</div>
-          <div class="grid-2" style="padding: 8px;">
+          <div class="section-header">AMENITIES & SERVICES</div>
+          <div class="grid-2" style="padding: 10px;">
             <div>
-              <div>1. ${type === 'hotel' ? 'Breakfast' : 'In-flight meals'}</div>
-              <div>3. ${type === 'hotel' ? 'Daily House Keeping' : 'Baggage allowance'}</div>
-              <div>5. ${type === 'hotel' ? 'Wifi' : 'Entertainment'}</div>
-              <div>7. ${type === 'hotel' ? 'Air conditioning' : 'Priority boarding'}</div>
+              <div>✓ Free WiFi</div>
+              <div>✓ Swimming Pool</div>
+              <div>✓ 24-hour Room Service</div>
+              <div>✓ Laundry Service</div>
             </div>
             <div>
-              <div>2. ${type === 'hotel' ? 'Pool' : 'Seat selection'}</div>
-              <div>4. ${type === 'hotel' ? 'Garden' : 'Lounge access'}</div>
-              <div>6. ${type === 'hotel' ? 'Smoking rooms' : 'Wi-Fi'}</div>
-              <div>8. ${type === 'hotel' ? 'Safety deposit box' : 'Travel insurance'}</div>
+              <div>✓ Restaurant</div>
+              <div>✓ Fitness Center</div>
+              <div>✓ Parking</div>
+              <div>✓ Airport Transfer (Chargeable)</div>
             </div>
           </div>
 
-          <div class="section-header">Terms & Conditions</div>
-          <div style="padding: 8px; font-size: 10px;">
-            <div>1. All booking must be made in advance.</div>
-            <div>2. Booking made with vouchers is not refundable in cash.</div>
-            <div>3. Vouchers are not refundable in cash or replaceable if lost, destroyed, or stolen.</div>
-            <div>4. All vouchers must be presented by the bearer on arrival at the ${type === 'hotel' ? 'hotel' : 'airport'} and must be mentioned when booking.</div>
-            <div>5. Any remaining amount is not exchangeable for cash or another voucher and will be automatically forfeited.</div>
+          <div class="section-header">IMPORTANT NOTES</div>
+          <div style="padding: 10px; font-size: 11px;">
+            <div>• Please present this confirmation and valid photo ID at reception during check-in.</div>
+            <div>• Standard check-in time is 14:00 and check-out time is 12:00 noon.</div>
+            <div>• Early check-in and late check-out are subject to availability and may incur additional charges.</div>
+            <div>• Cancellation must be made 48 hours prior to arrival to avoid cancellation charges.</div>
+            <div>• The hotel reserves the right to cancel or modify reservations where it appears necessary.</div>
           </div>
 
-          <div class="section-header">
-            Thanks for business with us!!! Please visit us again !!!
+          <div class="footer">
+            <div style="margin-bottom: 20px;">
+              <div class="qr-code" style="margin: 0 auto;">BOOKING QR CODE</div>
+            </div>
+            <div>Thank you for choosing ${data.hotelName}. We look forward to serving you!</div>
+            <div style="margin-top: 30px;">
+              <div>For any queries, please contact:</div>
+              <div>${data.hotelPhone || '+91 1234567890'} | ${data.hotelEmail || 'reservations@hotel.com'}</div>
+            </div>
+            <div style="margin-top: 40px;">
+              <div class="signature">Authorized Signature</div>
+            </div>
           </div>
         </div>
       </body>
     </html>
-  `;
+    `;
+  } else {
+    // Flight booking confirmation
+    return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>Flight Booking Confirmation</title>
+        <style>
+          * { margin: 0; padding: 0; box-sizing: border-box; }
+          body { font-family: Arial, sans-serif; font-size: 12px; line-height: 1.4; }
+          .voucher { width: 210mm; margin: 0 auto; background: white; }
+          .border { border: 1px solid #ddd; }
+          .header { padding: 10px 0; text-align: center; border-bottom: 1px solid #ddd; }
+          .logo-section { display: flex; padding: 10px 20px; align-items: center; }
+          .logo { width: 80px; height: 80px; border: 1px solid #ddd; margin-right: 20px; }
+          .airline-info { flex: 1; text-align: center; }
+          .airline-name { font-size: 22px; font-weight: bold; color: #1e3a8a; }
+          .flight-details { font-size: 12px; color: #666; margin-top: 5px; }
+          .grid-2 { display: grid; grid-template-columns: 1fr 1fr; }
+          .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+          .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; }
+          .grid-5 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; }
+          .cell { padding: 8px; border-right: 1px solid #ddd; }
+          .cell:last-child { border-right: none; }
+          .row { border-bottom: 1px solid #ddd; }
+          .section-header { background: #f0f0f0; padding: 8px; text-align: center; font-weight: bold; border-bottom: 1px solid #ddd; }
+          .input-field { padding: 4px; margin-top: 4px; }
+          .center { text-align: center; }
+          .bold { font-weight: bold; }
+          .text-blue { color: #1e40af; }
+          .text-green { color: #065f46; }
+          .flight-time { font-size: 16px; font-weight: bold; margin: 5px 0; }
+          .flight-route { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; }
+          .airport-code { font-size: 18px; font-weight: bold; }
+          .flight-duration { text-align: center; font-size: 12px; }
+          .qr-code { width: 60px; height: 60px; background: #f5f5f5; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 10px; }
+          .footer { padding: 15px; text-align: center; font-size: 11px; color: #666; border-top: 1px solid #ddd; }
+          .signature { margin-top: 30px; border-top: 1px dashed #333; width: 200px; display: inline-block; text-align: center; padding-top: 5px; }
+          @media print {
+            body { margin: 0; }
+            .voucher { width: 100%; border: none; }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="voucher">
+          <div class="logo-section">
+            <div class="logo">
+              <!-- Replace with actual logo -->
+              <img src=${'/Logo.png'} alt="Airline Logo" style="width:100%; height:100%; object-fit:contain;">
+            </div>
+            <div class="airline-info">
+              <div class="airline-name">${data.airline || 'Air India Express'}</div>
+              <div class="flight-details">Flight Booking Confirmation | E-Ticket</div>
+            </div>
+          </div>
+
+          <div class="header">
+            <h2>FLIGHT BOOKING CONFIRMATION</h2>
+          </div>
+
+          <div class="grid-3 row">
+            <div class="cell">
+              <span class="bold">Booking Reference:</span>
+              <div class="input-field">${bookingNo}</div>
+            </div>
+            <div class="cell">
+              <span class="bold">Booking Date:</span>
+              <div class="input-field">${formatDate(new Date().toString())}</div>
+            </div>
+            <div class="cell">
+              <span class="bold">Status:</span>
+              <div class="input-field text-green">Confirmed</div>
+            </div>
+          </div>
+
+          <div class="grid-2 row">
+            <div class="cell">
+              <span class="bold">Passenger Name:</span>
+              <div class="input-field">${data.passengerName}</div>
+            </div>
+            <div class="cell">
+              <span class="bold">Contact Number:</span>
+              <div class="input-field">${contactNumber}</div>
+            </div>
+          </div>
+
+          <div class="section-header">FLIGHT DETAILS</div>
+          
+          <div class="grid-4 row">
+            <div class="cell bold">Flight Number</div>
+            <div class="cell bold">Departure</div>
+            <div class="cell bold">Arrival</div>
+            <div class="cell bold">Duration</div>
+          </div>
+          <div class="grid-4 row">
+            <div class="cell">${data.flightNumber || 'AI-202'}</div>
+            <div class="cell">${formatDate(data.travelDate)}<br>${formatTime(data.departureTime)}</div>
+            <div class="cell">${formatDate(data.arrivalDate)}<br>${formatTime(data.arrivalTime)}</div>
+            <div class="cell">${data.duration || '2h 15m'}</div>
+          </div>
+
+          <div class="section-header">ROUTE DETAILS</div>
+          <div style="padding: 15px;">
+            <div class="flight-route">
+              <div>
+                <div class="airport-code">${data.departureAirport || 'DEL'}</div>
+                <div>${data.departureCity || 'Delhi'}</div>
+                <div class="flight-time">${formatTime(data.departureTime)}</div>
+                <div>${formatDate(data.travelDate)}</div>
+              </div>
+              <div class="flight-duration">
+                <div>${data.duration || '2h 15m'}</div>
+                <div>➝</div>
+                <div>${data.flightType || 'Non-stop'}</div>
+              </div>
+              <div style="text-align: right;">
+                <div class="airport-code">${data.arrivalAirport || 'BOM'}</div>
+                <div>${data.arrivalCity || 'Mumbai'}</div>
+                <div class="flight-time">${formatTime(data.arrivalTime)}</div>
+                <div>${formatDate(data.arrivalDate)}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header">PASSENGER DETAILS</div>
+          <div class="grid-5 row">
+            <div class="cell bold">Passenger Name</div>
+            <div class="cell bold">Type</div>
+            <div class="cell bold">Seat</div>
+            <div class="cell bold">Baggage</div>
+            <div class="cell bold">PNR</div>
+          </div>
+          <div class="grid-5 row">
+            <div class="cell">${data.passengerName}</div>
+            <div class="cell">Adult</div>
+            <div class="cell">${data.seatNumber || '12A'}</div>
+            <div class="cell">${data.baggageAllowance || '15kg'}</div>
+            <div class="cell">${data.pnr || 'ABC123'}</div>
+          </div>
+
+          <div class="section-header">FARE DETAILS</div>
+          <div class="grid-3 row">
+            <div class="cell bold">Fare Type</div>
+            <div class="cell bold">Base Fare</div>
+            <div class="cell bold">Total</div>
+          </div>
+          <div class="grid-3 row">
+            <div class="cell">${data.fareType || 'Economy'}</div>
+            <div class="cell">₹${data.baseFare || '4500'}</div>
+            <div class="cell">₹${data.totalFare || '5200'}</div>
+          </div>
+          <div class="grid-3 row">
+            <div class="cell bold">Taxes & Fees</div>
+            <div class="cell">₹${data.taxes || '700'}</div>
+            <div class="cell"></div>
+          </div>
+          <div class="grid-3 row">
+            <div class="cell bold" style="grid-column: span 2;">Total Amount Paid</div>
+            <div class="cell bold">₹${data.totalFare || '5200'}</div>
+          </div>
+
+          <div class="section-header">IMPORTANT INFORMATION</div>
+          <div style="padding: 10px; font-size: 11px;">
+            <div>• Please check-in online or arrive at the airport at least 2 hours before departure.</div>
+            <div>• Carry a printed copy of this confirmation and valid photo ID to the airport.</div>
+            <div>• Web check-in opens 48 hours before departure and closes 2 hours before departure.</div>
+            <div>• Baggage allowance: ${data.baggageAllowance || '15kg check-in + 7kg cabin'} per passenger.</div>
+            <div>• For any changes/cancellations, please contact the airline or your booking agent.</div>
+          </div>
+
+          <div class="footer">
+            <div style="margin-bottom: 20px;">
+              <div class="qr-code" style="margin: 0 auto;">E-TICKET QR CODE</div>
+            </div>
+            <div>Thank you for choosing ${data.airline || 'Air India Express'}. Have a pleasant journey!</div>
+            <div style="margin-top: 30px;">
+              <div>For any queries, please contact:</div>
+              <div>${data.airlineContact || '+91 1234567890'} | ${data.airlineEmail || 'customer.care@airline.com'}</div>
+            </div>
+            <div style="margin-top: 40px;">
+              <div class="signature">Authorized Signature</div>
+            </div>
+          </div>
+        </div>
+      </body>
+    </html>
+    `;
+  }
 };
 
 // Legacy function for backward compatibility

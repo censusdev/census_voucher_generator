@@ -10,7 +10,10 @@ interface HotelVoucherProps {
     guestName: string;
     checkInDate: string;
     checkOutDate: string;
-    numberOfGuests: number;
+    //numberOfGuests: number;
+    adults: number;
+    children: number;
+    bookingNumber: string; // Added booking number
   };
   onExportPDF: () => void;
 }
@@ -79,7 +82,7 @@ const HotelVoucher: React.FC<HotelVoucherProps> = ({ data, onExportPDF }) => {
                 </h3>
                 <div className="space-y-2">
                   <p className="text-xl font-semibold text-gray-800">{data.guestName}</p>
-                  <p className="text-gray-600">{data.numberOfGuests} Guest{data.numberOfGuests > 1 ? 's' : ''}</p>
+                  <p className="text-gray-600">{data.adults} Adult Guest{data.adults > 1 ? 's' : ''} - {data.children} Child Guest{data.children > 1 ? 's' : ''}</p>
                 </div>
               </div>
             </div>

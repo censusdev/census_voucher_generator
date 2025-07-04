@@ -5,19 +5,31 @@ import FlightVoucher from './FlightVoucher';
 import { generateVoucherPDF } from '@/utils/pdfGenerator';
 
 interface HotelFormData {
+  bookingNumber:string,
   hotelName: string;
   guestName: string;
   checkInDate: string;
   checkOutDate: string;
-  numberOfGuests: number;
+  //numberOfGuests: number;
+  adults: number;
+  children: number;
 }
 
 interface FlightFormData {
+  flightNumber: string;
   flightName: string;
+  //passengerName: string;
+  //travelDate: string;
+  //returnDate: string;
+  //numberOfPassengers: number;
+
+  //flightNumber: string;
+  airlineName: string;
   passengerName: string;
   travelDate: string;
   returnDate: string;
-  numberOfPassengers: number;
+  adults: number;
+  children: number;
 }
 
 type VoucherType = 'hotel' | 'flight' | null;
@@ -58,9 +70,8 @@ const AppLayout: React.FC = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            Travel Voucher Generator
+            Voucher Generator - Census
           </h1>
-          <p className="text-gray-600 text-lg">Generate professional hotel and flight vouchers instantly</p>
         </div>
 
         {currentVoucher === null && (
