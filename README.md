@@ -12,7 +12,7 @@ A modern web application for generating professional hotel and flight vouchers w
 
 ## Live Demo
 
-Visit the live application: [https://yourusername.github.io/travel-voucher-generator](https://yourusername.github.io/travel-voucher-generator)
+Visit the live application: [https://censusdev.github.io/census_voucher_generator](https://censusdev.github.io/census_voucher_generator)
 
 ## Local Development
 
@@ -25,7 +25,7 @@ Visit the live application: [https://yourusername.github.io/travel-voucher-gener
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/travel-voucher-generator.git
+git clone https://github.com/censusdev/census_voucher_generator.git
 cd travel-voucher-generator
 ```
 
@@ -55,7 +55,7 @@ This project is configured with GitHub Actions for automatic deployment:
 
 1. Push your code to the `main` branch
 2. GitHub Actions will automatically build and deploy to GitHub Pages
-3. Your site will be available at `https://yourusername.github.io/travel-voucher-generator`
+3. Your site will be available at `https://censusdev.github.io/census_voucher_generator`
 
 ### Manual Deployment
 
@@ -82,12 +82,12 @@ npm run deploy
 
 1. In `package.json`, update the `homepage` field:
 ```json
-"homepage": "https://YOURUSERNAME.github.io/REPOSITORY-NAME"
+"homepage": "https://censusdev.github.io/census_voucher_generator"
 ```
 
 2. In `vite.config.ts`, update the base path:
 ```typescript
-base: process.env.NODE_ENV === 'production' ? '/REPOSITORY-NAME/' : '/'
+base: process.env.NODE_ENV === 'production' ? '/census_voucher_generator/' : '/'
 ```
 
 ### 3. Enable GitHub Pages
@@ -100,7 +100,7 @@ base: process.env.NODE_ENV === 'production' ? '/REPOSITORY-NAME/' : '/'
 ### 4. Access Your Application
 
 Your application will be available at:
-`https://YOURUSERNAME.github.io/REPOSITORY-NAME`
+`https://censusdev.github.io/census_voucher_generator`
 
 ## Technology Stack
 
