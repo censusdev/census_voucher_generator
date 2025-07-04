@@ -4,7 +4,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: process.env.NODE_ENV === 'production' ? '/travel-voucher-generator/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/census_voucher_generator/' : '/',
   server: {
     host: "::",
     port: 8080,

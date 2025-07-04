@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://censusdev.github.io/census_voucher_generator",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
