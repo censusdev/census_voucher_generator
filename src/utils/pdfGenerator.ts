@@ -87,6 +87,7 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
           .qr-code { width: 60px; height: 60px; background: #f5f5f5; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; font-size: 10px; }
           .footer { padding: 15px; text-align: center; font-size: 11px; color: #666; border-top: 1px solid #ddd; }
           .signature { margin-top: 30px; border-top: 1px dashed #333; width: 200px; display: inline-block; text-align: center; padding-top: 5px; }
+          .status-confirmed { display: inline-flex; align-items: center;gap: 4px;background-color: #ecfdf5;color: #065f46;padding: 4px 8px;border-radius: 12px;font-weight: 500;}
           @media print {
             body { margin: 0; }
             .voucher { width: 100%; border: none; }
@@ -121,7 +122,12 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             </div>
             <div class="cell">
               <span class="bold">Status:</span>
-              <div class="input-field">Confirmed</div>
+              <div class="input-field">
+                Confirmed
+                <span class="status-confirmed">
+                   ✓
+                </span>
+              </div>
             </div>
           </div>
 
