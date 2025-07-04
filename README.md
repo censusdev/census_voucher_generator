@@ -95,7 +95,7 @@ base: process.env.NODE_ENV === 'production' ? '/census_voucher_generator/' : '/'
 1. Go to your repository settings
 2. Scroll down to "Pages" section
 3. Under "Source", select "GitHub Actions"
-4. Push to main branch to trigger deployment
+4. Push to main branch to trigger deployment  
 
 ### 4. Access Your Application
 
