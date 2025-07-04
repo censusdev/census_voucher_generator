@@ -69,7 +69,7 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
           .border { border: 1px solid #ddd; }
           .header { padding: 10px 0; text-align: center; border-bottom: 1px solid #ddd; }
           .logo-section { display: flex; padding: 10px 20px; align-items: center; }
-          .logo { width: 80px; height: 80px; border: 1px solid #ddd; margin-right: 20px; }
+          .logo { width: 80px; height: 80px; border: 1px solid #ddd; margin-right: 20px;border-radius:8px; }
           .hotel-info { flex: 1; text-align: center; }
           .hotel-name { font-size: 22px; font-weight: bold; color: #1e3a8a; }
           .hotel-address { font-size: 12px; color: #666; margin-top: 5px; }
@@ -97,13 +97,12 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
         <div class="voucher">
           <div class="logo-section">
             <div class="logo">
-              <!-- Replace with actual logo -->
-              <img src=${'/Logo.png'} alt="Hotel Logo" style="width:100%; height:100%; object-fit:contain;">
+              <img src=${'/Logo.png'} alt="Hotel Logo" style="width:100%; height:100%; object-fit:contain;border-radius: 8px;">
             </div>
             <div class="hotel-info">
               <div class="hotel-name">${data.hotelName}</div>
-              <div class="hotel-address">${data.hotelAddress || '123 Main Street, City, State - 123456'}</div>
-              <div class="hotel-address">Phone: ${data.hotelPhone || '+91 1234567890'} | Email: ${data.hotelEmail || 'reservations@hotel.com'}</div>
+              <div class="hotel-address">${data.hotelAddress || '123 Main Street, Dubai, United Arab Emirates - 123456'}</div>
+              <div class="hotel-address">Phone: ${data.hotelPhone || '+971 50356 2142'} | Email: ${data.hotelEmail || 'reservations@' + data.hotelName + '.com'}</div>
             </div>
           </div>
 
@@ -144,7 +143,7 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             </div>
             <div class="cell">
               <span class="bold">No. of Guests:</span>
-              <div class="input-field">${data.numberOfGuests} (${data.numberOfAdults || 2} Adults, ${data.numberOfChildren || 0} Children)</div>
+              <div class="input-field">${data.numberOfAdults + data.numberOfChildren} (${data.numberOfAdults || 2} Adults, ${data.numberOfChildren || 0} Children)</div>
             </div>
           </div>
 
@@ -158,11 +157,11 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             <div class="cell center">
               <div class="bold text-blue">Check-out</div>
               <div class="bold" style="font-size: 16px; margin-top: 8px;">${formatDate(data.checkOutDate)}</div>
-              <div>Until 12:00 noon</div>
+              <div>12:00 noon</div>
             </div>
             <div class="cell center">
               <div class="bold text-blue">Duration</div>
-              <div class="bold" style="font-size: 16px; margin-top: 8px;">${calculateNights()} Nights / ${calculateNights()+1} Days</div>
+              <div class="bold" style="font-size: 16px; margin-top: 8px;">${calculateNights()} Nights</div>
             </div>
           </div>
 
@@ -178,23 +177,6 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             <div class="cell">${data.roomQuantity || 1}</div>
             <div class="cell">${data.mealPlan || 'Room Only'}</div>
            
-          </div>
-
-
-          <div class="section-header">AMENITIES & SERVICES</div>
-          <div class="grid-2" style="padding: 10px;">
-            <div>
-              <div>✓ Free WiFi</div>
-              <div>✓ Swimming Pool</div>
-              <div>✓ 24-hour Room Service</div>
-              <div>✓ Laundry Service</div>
-            </div>
-            <div>
-              <div>✓ Restaurant</div>
-              <div>✓ Fitness Center</div>
-              <div>✓ Parking</div>
-              <div>✓ Airport Transfer (Chargeable)</div>
-            </div>
           </div>
 
           <div class="section-header">IMPORTANT NOTES</div>
