@@ -69,7 +69,7 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
           .border { border: 1px solid #ddd; }
           .header { padding: 10px 0; text-align: center; border-bottom: 1px solid #ddd; }
           .logo-section { display: flex; padding: 10px 20px; align-items: center; }
-          .logo { width: 80px; height: 80px; border: 1px solid #ddd; margin-right: 20px;border-radius:8px; }
+          .logo { width: 90px; height: 90px; margin-right: 20px;border-radius:8px; }
           .hotel-info { flex: 1; text-align: center; }
           .hotel-name { font-size: 22px; font-weight: bold; color: #1e3a8a; }
           .hotel-address { font-size: 12px; color: #666; margin-top: 5px; }
@@ -98,12 +98,12 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
         <div class="voucher">
           <div class="logo-section">
             <div class="logo">
-              <img src=${'/Logo.png'} alt="Hotel Logo" style="width:100%; height:100%; object-fit:contain;border-radius: 8px;">
+              <img src=${'/Logo.png'} alt="Hotel Logo" style="width:100%; height:100%; object-fit:contain;">
             </div>
             <div class="hotel-info">
               <div class="hotel-name">${data.hotelName}</div>
-              <div class="hotel-address">${data.hotelAddress || '123 Main Street, Dubai, United Arab Emirates - 123456'}</div>
-              <div class="hotel-address">Phone: ${data.hotelPhone || '+971 50356 2142'} | Email: ${data.hotelEmail || 'reservations@' + data.hotelName + '.com'}</div>
+              <div class="hotel-address">Booked From: ${data.hotelAddress || 'Census Travel and Tourism, 923 Block B, Business Village Building, Clock Tower Deira, Dubai, UAE'}</div>
+              <div class="hotel-address">Phone: ${data.hotelPhone || '+971 50356 2142'} | Email: ${data.hotelEmail || 'info@census.travel'}</div>
             </div>
           </div>
 
@@ -149,7 +149,7 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             </div>
             <div class="cell">
               <span class="bold">No. of Guests:</span>
-              <div class="input-field">${data.numberOfAdults + data.numberOfChildren} (${data.numberOfAdults || 2} Adults, ${data.numberOfChildren || 0} Children)</div>
+              <div class="input-field">${data.adults + data.children} (${data.adults || 2} Adults, ${data.children || 0} Children)</div>
             </div>
           </div>
 
