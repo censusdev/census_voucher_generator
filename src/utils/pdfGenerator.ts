@@ -49,11 +49,12 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   };
 
-  const bookingNo = `ACC${Math.random().toString().substr(2, 9)}`;
+  //const bookingNo = `ACC${Math.random().toString().substr(2, 9)}`;
+  const bookingNo = data.bookingNumber || `ACC${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
   const gstin = '22AAAAAA0000A1Z5';
-  const contactNumber = '8822665599';
-  const mobileNumber = '9922663388';
-  const email = 'abcd@xyz.com';
+  const contactNumber = '+971 50356 2142';
+  const mobileNumber = '+971 562110398';
+  const email = 'info@census.travel';
 
   if (type === 'hotel') {
     return `
@@ -170,17 +171,13 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             <div class="cell bold">Room Type</div>
             <div class="cell bold">Quantity</div>
             <div class="cell bold">Meal Plan</div>
-            <div class="cell bold">Rate/Night</div>
+          
           </div>
           <div class="grid-4 row">
             <div class="cell">${data.roomType || 'Deluxe Room'}</div>
             <div class="cell">${data.roomQuantity || 1}</div>
             <div class="cell">${data.mealPlan || 'Room Only'}</div>
-            <div class="cell">₹${data.ratePerNight || '5000'}</div>
-          </div>
-          <div class="grid-4 row">
-            <div class="cell bold" style="grid-column: span 3;">Total Amount</div>
-            <div class="cell bold">₹${data.totalAmount || '10000'}</div>
+           
           </div>
 
 
@@ -207,20 +204,6 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             <div>• Early check-in and late check-out are subject to availability and may incur additional charges.</div>
             <div>• Cancellation must be made 48 hours prior to arrival to avoid cancellation charges.</div>
             <div>• The hotel reserves the right to cancel or modify reservations where it appears necessary.</div>
-          </div>
-
-          <div class="footer">
-            <div style="margin-bottom: 20px;">
-              <div class="qr-code" style="margin: 0 auto;">BOOKING QR CODE</div>
-            </div>
-            <div>Thank you for choosing ${data.hotelName}. We look forward to serving you!</div>
-            <div style="margin-top: 30px;">
-              <div>For any queries, please contact:</div>
-              <div>${data.hotelPhone || '+91 1234567890'} | ${data.hotelEmail || 'reservations@hotel.com'}</div>
-            </div>
-            <div style="margin-top: 40px;">
-              <div class="signature">Authorized Signature</div>
-            </div>
           </div>
         </div>
       </body>
@@ -395,20 +378,6 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             <div>• Web check-in opens 48 hours before departure and closes 2 hours before departure.</div>
             <div>• Baggage allowance: ${data.baggageAllowance || '15kg check-in + 7kg cabin'} per passenger.</div>
             <div>• For any changes/cancellations, please contact the airline or your booking agent.</div>
-          </div>
-
-          <div class="footer">
-            <div style="margin-bottom: 20px;">
-              <div class="qr-code" style="margin: 0 auto;">E-TICKET QR CODE</div>
-            </div>
-            <div>Thank you for choosing ${data.airline || 'Air India Express'}. Have a pleasant journey!</div>
-            <div style="margin-top: 30px;">
-              <div>For any queries, please contact:</div>
-              <div>${data.airlineContact || '+91 1234567890'} | ${data.airlineEmail || 'customer.care@airline.com'}</div>
-            </div>
-            <div style="margin-top: 40px;">
-              <div class="signature">Authorized Signature</div>
-            </div>
           </div>
         </div>
       </body>
