@@ -57,6 +57,9 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
   const email = 'info@census.travel';
 
   if (type === 'hotel') {
+    const hasMultipleGuests = data.guestNames && data.guestNames.length > 1;
+    const primaryGuestName = data.guestNames?.[0] || data.guestName || '';
+
     return `
     <!DOCTYPE html>
     <html>
@@ -133,14 +136,41 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
 
           <div class="grid-2 row">
             <div class="cell">
-              <span class="bold">Guest Name:</span>
-              <div class="input-field">${data.guestName}</div>
+             <span class="bold">${hasMultipleGuests ? 'Primary Guest' : 'Guest Name'}:</span>
+              <div class="input-field">${primaryGuestName}</div>
             </div>
             <div class="cell">
               <span class="bold">Contact Number:</span>
               <div class="input-field">${contactNumber}</div>
             </div>
           </div>
+           ${hasMultipleGuests ? `
+          <div class="row">
+            <div class="cell">
+              <span class="bold">Additional Guests:</span>
+              <div class="input-field guest-list">
+                ${data.guestNames.slice(1).map((name: string, index: number) => `
+                  <div class="guest-item">${name} (${index < data.adults - 1 ? 'Adult' : 'Child'})</div>
+                `).join('')}
+              </div>
+            </div>
+            <div class="cell">
+              <span class="bold">Total Guests:</span>
+              <div class="input-field">${data.adults} Adults, ${data.children} Children</div>
+            </div>
+          </div>
+          ` : `
+          <div class="grid-2 row">
+            <div class="cell">
+              <span class="bold">Total Guests:</span>
+              <div class="input-field">${data.adults} Adult(s), ${data.children} Child(ren)</div>
+            </div>
+            <div class="cell">
+              <span class="bold">Email:</span>
+              <div class="input-field">${email}</div>
+            </div>
+          </div>
+          `}
 
           <div class="grid-2 row">
             <div class="cell">

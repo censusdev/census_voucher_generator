@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Hotel, Plane } from 'lucide-react';
+import { Calendar, MapPin, Users, Hotel, Plane } from 'lucide-react';
 
 interface HotelFormData {
   bookingNumber: string;
   hotelName: string;
-  guestName: string;
   checkInDate: string;
   checkOutDate: string;
   adults: number;
   children: number;
+  multipleGuests: boolean;
+  guestNames: string[];
 }
 
 interface FlightFormData {
@@ -35,11 +37,12 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
   const [hotelData, setHotelData] = useState<HotelFormData>({
     bookingNumber: `HOTEL${Math.floor(100000 + Math.random() * 900000)}`,
     hotelName: '',
-    guestName: '',
     checkInDate: '',
     checkOutDate: '',
     adults: 1,
-    children: 0
+    children: 0,
+    multipleGuests: false,
+    guestNames: ['']
   });
 
   const [flightData, setFlightData] = useState<FlightFormData>({
@@ -51,6 +54,32 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
     adults: 1,
     children: 0
   });
+
+  // Update guest names array when adults/children change
+  useEffect(() => {
+    const totalGuests = hotelData.adults + hotelData.children;
+    if (hotelData.multipleGuests) {
+      const newGuestNames = [...hotelData.guestNames];
+      while (newGuestNames.length < totalGuests) {
+        newGuestNames.push('');
+      }
+      while (newGuestNames.length > totalGuests) {
+        newGuestNames.pop();
+      }
+      setHotelData({...hotelData, guestNames: newGuestNames});
+    } else {
+      // Ensure at least one name exists
+      if (hotelData.guestNames.length === 0) {
+        setHotelData({...hotelData, guestNames: ['']});
+      }
+    }
+  }, [hotelData.adults, hotelData.children, hotelData.multipleGuests]);
+
+  const handleGuestNameChange = (index: number, value: string) => {
+    const newGuestNames = [...hotelData.guestNames];
+    newGuestNames[index] = value;
+    setHotelData({...hotelData, guestNames: newGuestNames});
+  };
 
   const handleHotelSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -118,17 +147,6 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                   className="h-11"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="guestName" className="text-sm font-medium">Guest Name</Label>
-                <Input
-                  id="guestName"
-                  placeholder="Enter guest name"
-                  value={hotelData.guestName}
-                  onChange={(e) => setHotelData({...hotelData, guestName: e.target.value})}
-                  required
-                  className="h-11"
-                />
-              </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="checkIn" className="text-sm font-medium">Check-in Date</Label>
@@ -178,6 +196,70 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                   />
                 </div>
               </div>
+
+              {(hotelData.adults + hotelData.children) > 1 && (
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="multipleGuests"
+                    checked={hotelData.multipleGuests}
+                    onCheckedChange={(checked) => 
+                      setHotelData({...hotelData, multipleGuests: Boolean(checked)})
+                    }
+                  />
+                  <Label htmlFor="multipleGuests">Enter names for all guests</Label>
+                </div>
+              )}
+
+              {hotelData.multipleGuests ? (
+                <div className="space-y-4">
+                  <Label className="text-sm font-medium">Guest Names</Label>
+                  {Array.from({ length: hotelData.adults }).map((_, index) => (
+                    <div key={`adult-${index}`} className="space-y-2">
+                      <Label htmlFor={`adult-name-${index}`} className="text-sm font-medium">
+                        Adult {index + 1} Name
+                      </Label>
+                      <Input
+                        id={`adult-name-${index}`}
+                        placeholder={`Enter adult ${index + 1} name`}
+                        value={hotelData.guestNames[index] || ''}
+                        onChange={(e) => handleGuestNameChange(index, e.target.value)}
+                        required
+                        className="h-11"
+                      />
+                    </div>
+                  ))}
+                  {Array.from({ length: hotelData.children }).map((_, index) => (
+                    <div key={`child-${index}`} className="space-y-2">
+                      <Label htmlFor={`child-name-${index}`} className="text-sm font-medium">
+                        Child {index + 1} Name
+                      </Label>
+                      <Input
+                        id={`child-name-${index}`}
+                        placeholder={`Enter child ${index + 1} name`}
+                        value={hotelData.guestNames[hotelData.adults + index] || ''}
+                        onChange={(e) => handleGuestNameChange(hotelData.adults + index, e.target.value)}
+                        required
+                        className="h-11"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <Label htmlFor="guestName" className="text-sm font-medium">
+                    {hotelData.adults + hotelData.children > 1 ? 'Primary Guest Name' : 'Guest Name'}
+                  </Label>
+                  <Input
+                    id="guestName"
+                    placeholder="Enter guest name"
+                    value={hotelData.guestNames[0] || ''}
+                    onChange={(e) => handleGuestNameChange(0, e.target.value)}
+                    required
+                    className="h-11"
+                  />
+                </div>
+              )}
+
               <Button type="submit" className="w-full h-12 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
                 Generate Hotel Voucher
               </Button>
