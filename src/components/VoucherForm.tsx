@@ -200,31 +200,7 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="adults" className="text-sm font-medium">Adults</Label>
-                  <Input
-                    id="adults"
-                    type="number"
-                    min="1"
-                    value={hotelData.adults}
-                    onChange={(e) => setHotelData({...hotelData, adults: parseInt(e.target.value)})}
-                    required
-                    className="h-11"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="children" className="text-sm font-medium">Children</Label>
-                  <Input
-                    id="children"
-                    type="number"
-                    min="0"
-                    value={hotelData.children}
-                    onChange={(e) => setHotelData({...hotelData, children: parseInt(e.target.value)})}
-                    className="h-11"
-                  />
-                </div>
-              </div>
+             
 
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-2">
@@ -274,6 +250,32 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                       ))}
                     </SelectContent>
                   </Select>
+                </div>
+              </div>
+
+               <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="adults" className="text-sm font-medium">Adults</Label>
+                  <Input
+                    id="adults"
+                    type="number"
+                    min="1"
+                    value={hotelData.adults}
+                    onChange={(e) => setHotelData({...hotelData, adults: parseInt(e.target.value)})}
+                    required
+                    className="h-11"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="children" className="text-sm font-medium">Children</Label>
+                  <Input
+                    id="children"
+                    type="number"
+                    min="0"
+                    value={hotelData.children}
+                    onChange={(e) => setHotelData({...hotelData, children: parseInt(e.target.value)})}
+                    className="h-11"
+                  />
                 </div>
               </div>
 
