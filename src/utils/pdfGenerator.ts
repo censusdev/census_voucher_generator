@@ -210,7 +210,7 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
           </div>
           <div class="grid-4 row">
             <div class="cell">${data.roomType || 'Deluxe Room'}</div>
-            <div class="cell">${data.roomQuantity || 1}</div>
+            <div class="cell">${data.noOfRooms || 1}</div>
             <div class="cell">${data.mealPlan || 'Room Only'}</div>
            
           </div>
