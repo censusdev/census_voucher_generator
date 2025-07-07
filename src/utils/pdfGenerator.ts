@@ -52,8 +52,8 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
   //const bookingNo = `ACC${Math.random().toString().substr(2, 9)}`;
   const bookingNo = data.bookingNumber || `ACC${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
   const gstin = '22AAAAAA0000A1Z5';
-  const contactNumber = '+971 50356 2142';
-  const mobileNumber = '+971 562110398';
+  const contactNumber = '+971 50 356 2142';
+  const mobileNumber = '+971 56 211 0398';
   const email = 'info@census.travel';
 
   if (type === 'hotel') {
