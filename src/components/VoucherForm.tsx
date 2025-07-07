@@ -91,8 +91,8 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
   const handleGuestNamesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     // const names = e.target.value.split('\n').filter(name => name.trim() !== '');
     // setHotelData({...hotelData, guestNames: names});
-     const rawValue = e.target.value;
-    setHotelData(prev => ({
+    const rawValue = e.target.value;
+      setHotelData(prev => ({
       ...prev,
       guestNamesRaw: rawValue
     }));
@@ -214,7 +214,7 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                     </SelectTrigger>
                     <SelectContent>
                       {roomTypes.map((type) => (
-                        <SelectItem key={type.value} value={type.value}>
+                        <SelectItem key={type.value} value={type.label}>
                           {type.label}
                         </SelectItem>
                       ))}
@@ -244,7 +244,7 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                     </SelectTrigger>
                     <SelectContent>
                       {mealPlans.map((plan) => (
-                        <SelectItem key={plan.value} value={plan.value}>
+                        <SelectItem key={plan.value} value={plan.label}>
                           {plan.label}
                         </SelectItem>
                       ))}
@@ -303,7 +303,7 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                   </Label>
                   <Textarea
                     id="allGuestNames"
-                    placeholder={`Enter all guest names, one per line\nExample:\nAakash\nRohan\nPratik`}
+                    placeholder={`Enter all guest names seperated by commas.`}
                     value={hotelData.guestNames.join('\n')}
                     onChange={handleGuestNamesChange}
                     required
@@ -315,7 +315,7 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                     }}
                   />
                   <p className="text-sm text-muted-foreground">
-                    Enter one name per line. {totalGuests} names expected ({hotelData.adults} adults and {hotelData.children} children).
+                    Enter all guests name seperated by commas. {totalGuests} names expected ({hotelData.adults} adults and {hotelData.children} children).
                   </p>
                 </div>
               ) : (
