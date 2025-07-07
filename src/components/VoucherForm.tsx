@@ -2,6 +2,13 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Hotel, Plane } from 'lucide-react';
@@ -14,6 +21,7 @@ interface HotelFormData {
   checkOutDate: string;
   adults: number;
   children: number;
+  roomType: string;
 }
 
 interface FlightFormData {
@@ -23,7 +31,7 @@ interface FlightFormData {
   travelDate: string;
   returnDate: string;
   adults: number;
-  children: number;
+  children: number;  
 }
 
 interface VoucherFormProps {
@@ -39,7 +47,8 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
     checkInDate: '',
     checkOutDate: '',
     adults: 1,
-    children: 0
+    children: 0,
+    roomType: 'Standard',
   });
 
   const [flightData, setFlightData] = useState<FlightFormData>({
@@ -165,6 +174,36 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                     required
                     className="h-11"
                   />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="children" className="text-sm font-medium">Children</Label>
+                  <Input
+                    id="children"
+                    type="number"
+                    min="0"
+                    value={hotelData.children}
+                    onChange={(e) => setHotelData({...hotelData, children: parseInt(e.target.value)})}
+                    className="h-11"
+                  />
+                </div>
+              </div>
+              {/* Room Type  */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="roomType" className="text-sm font-medium">Room Type</Label>
+                  <Select
+                    value={hotelData.roomType}
+                    onValueChange={(value) => setHotelData({...hotelData, roomType: value})}
+                  >
+                    <SelectTrigger className="w-full h-11">
+                      <SelectValue placeholder="Room Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="light">Standard</SelectItem>
+                      <SelectItem value="dark">Delux</SelectItem>
+                      <SelectItem value="system">Suite</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="children" className="text-sm font-medium">Children</Label>

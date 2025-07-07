@@ -102,7 +102,7 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             </div>
             <div class="hotel-info">
               <div class="hotel-name">${data.hotelName}</div>
-              <div class="hotel-address">Booked From: ${data.hotelAddress || 'Census Travel and Tourism, 923 Block B, Business Village Building, Clock Tower Deira, Dubai, UAE'}</div>
+              <div class="hotel-address">Booked From: ${data.hotelAddress || '<strong>Census Travel and Tourism</strong></br> 923 Block B, Business Village Building, Clock Tower Deira, Dubai, UAE'}</div>
               <div class="hotel-address">Phone: ${data.hotelPhone || '+971 50356 2142'} | Email: ${data.hotelEmail || 'info@census.travel'}</div>
             </div>
           </div>
