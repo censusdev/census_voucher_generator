@@ -6,6 +6,8 @@ import { generateVoucherPDF } from '@/utils/pdfGenerator';
 
 interface HotelVoucherProps {
   data: {
+    bookingDate: string;
+    bookingNumber: string;
     hotelName: string;
     guestName: string;
     checkInDate: string;
@@ -13,7 +15,9 @@ interface HotelVoucherProps {
     //numberOfGuests: number;
     adults: number;
     children: number;
-    bookingNumber: string; // Added booking number
+    roomType: string;
+    noOfRooms: number;
+    mealPlan: string;
   };
   onExportPDF: () => void;
 }
