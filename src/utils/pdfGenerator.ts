@@ -121,7 +121,7 @@ const createVoucherHTML = (data: any, type: 'hotel' | 'flight') => {
             </div>
             <div class="cell">
               <span class="bold">Booking Date:</span>
-              <div class="input-field">${formatDate(new Date().toString())}</div>
+              <div class="input-field">${formatDate(data.bookingDate)}</div>
             </div>
             <div class="cell">
               <span class="bold">Status:</span>

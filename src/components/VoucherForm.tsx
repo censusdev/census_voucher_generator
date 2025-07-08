@@ -16,6 +16,7 @@ import { Hotel, Plane } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 
 interface HotelFormData {
+  bookingDate: string;
   bookingNumber: string;
   hotelName: string;
   checkInDate: string;
@@ -62,6 +63,7 @@ const mealPlans = [
 
 const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFlight }) => {
   const [hotelData, setHotelData] = useState<HotelFormData>({
+    bookingDate: new Date().toISOString().split('T')[0],
     bookingNumber: `HOTEL${Math.floor(100000 + Math.random() * 900000)}`,
     hotelName: '',
     checkInDate: '',
@@ -142,6 +144,19 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
           
           <TabsContent value="hotel">
             <form onSubmit={handleHotelSubmit} className="space-y-6">
+
+              <div className="space-y-2">
+                <Label htmlFor="bookingDate" className="text-sm font-medium">Booking Date</Label>
+                <Input
+                  id="bookingDate"
+                  type="date"
+                  value={hotelData.bookingDate}
+                  onChange={(e) => setHotelData({...hotelData, bookingDate: e.target.value})}
+                  required
+                  className="h-11"
+                />
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="bookingNumber" className="text-sm font-medium">Booking Number</Label>
                 <div className="flex gap-2">
@@ -165,6 +180,7 @@ const VoucherForm: React.FC<VoucherFormProps> = ({ onGenerateHotel, onGenerateFl
                   </Button>
                 </div>
               </div>
+
               <div className="space-y-2">
                 <Label htmlFor="hotelName" className="text-sm font-medium">Hotel Name</Label>
                 <Input
